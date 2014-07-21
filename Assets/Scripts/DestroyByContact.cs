@@ -7,6 +7,7 @@ public class DestroyByContact : MonoBehaviour {
 	public GameObject playerExplosion;
 	public int scoreValue;
 	private GameController gameController;
+	public bool invincible = false;
 
 	void Start()
 	{
@@ -20,7 +21,7 @@ public class DestroyByContact : MonoBehaviour {
 	}
 
 	void OnTriggerEnter(Collider other) {
-		if (other.tag == "Boundary" || other.tag == "PowerUp") 
+		if (other.tag == "Boundary" || other.tag == "PowerUp" || invincible) 
 		{
 			return;
 		}
@@ -35,5 +36,10 @@ public class DestroyByContact : MonoBehaviour {
 		gameController.AddScore (scoreValue);
 		Destroy(other.gameObject);
 		Destroy (gameObject);
+	}
+
+	public void setInvincible (bool isInvincible)
+	{
+		invincible = isInvincible;
 	}
 }
