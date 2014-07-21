@@ -7,6 +7,7 @@ public class GameController : MonoBehaviour {
 	public GameObject hazard;
 	public GameObject enemy;
 	public GameObject boss_ginger;
+	public GameObject mainCamera;
 	public Vector3 spawnValues;
 	public int hazardCount;
 	public float spawnWait;
@@ -147,6 +148,7 @@ public class GameController : MonoBehaviour {
 		Vector3 spawnPosition = new Vector3 (0, spawnValues.y, spawnValues.z);
 		Quaternion spawnRotation = new Quaternion(90f,0f,0f,0f);
 		GameObject go = Instantiate(boss_ginger) as GameObject;
+		go.GetComponent <GingerMover>().setCamera(mainCamera);
 		go.SendMessage ("TheStart", transform.forward);
 		bossActive = true;
 		yield return new WaitForSeconds (spawnWait);
