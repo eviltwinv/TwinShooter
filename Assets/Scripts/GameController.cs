@@ -145,8 +145,6 @@ public class GameController : MonoBehaviour {
 		restartText.text = "Ginger";
 		yield return new WaitForSeconds (startWait);
 		HitCounterReset ();
-		Vector3 spawnPosition = new Vector3 (0, spawnValues.y, spawnValues.z);
-		Quaternion spawnRotation = new Quaternion(90f,0f,0f,0f);
 		GameObject go = Instantiate(boss_ginger) as GameObject;
 		go.GetComponent <GingerMover>().setCamera(mainCamera);
 		go.SendMessage ("TheStart", transform.forward);
