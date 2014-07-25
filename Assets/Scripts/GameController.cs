@@ -46,8 +46,8 @@ public class GameController : MonoBehaviour {
 	IEnumerator SpawnWaves ()
 	{
 		while(bossActive == false){
-			yield return StartCoroutine (PhaseOne());
-			yield return StartCoroutine (PhaseTwo());
+			//yield return StartCoroutine (PhaseOne());
+			//yield return StartCoroutine (PhaseTwo());
 			yield return StartCoroutine (BossOne());
 		}
 

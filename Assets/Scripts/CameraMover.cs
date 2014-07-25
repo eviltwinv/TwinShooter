@@ -10,13 +10,13 @@ public class CameraMover : MonoBehaviour {
 	public Vector3 offset = new Vector3 (0f, 20f, 0f);
 	private bool zoomIn = false;
 	private float zoomSpeed = 0.0f;
-	private float rangeDefault = 10f;
+	private float heightDefault = 10f;
 	public float distance = 3.0f;
 	public float height;
 
 	void Awake()
 	{
-		height = rangeDefault;
+		height = heightDefault;
 		homePosition = camera.transform.position;
 		homeRotation = camera.transform.rotation;
 		returnHome ();
@@ -24,12 +24,6 @@ public class CameraMover : MonoBehaviour {
 
 	void Start()
 	{
-	} //moveCamera
-
-	public void attachTo (GameObject gObject)
-	{
-		target = gObject;
-		camera.transform.parent = gObject.transform;
 	}
 
 	public void setTarget(GameObject gObject)
@@ -37,7 +31,7 @@ public class CameraMover : MonoBehaviour {
 		target = gObject;
 	}
 
-	public void ZoomIn (float speed, float targetRange)
+	public void ZoomIn (float speed, float toHeight)
 	{
 		if (target == null)
 		{
@@ -45,7 +39,7 @@ public class CameraMover : MonoBehaviour {
 			return;
 		}
 		zoomSpeed = speed;
-		height = rangeDefault;
+		height = toHeight;
 		Camera.main.transform.LookAt(target.transform.position);
 		zoomIn = true;
 	}
@@ -54,7 +48,6 @@ public class CameraMover : MonoBehaviour {
 	{
 		zoomIn = false;
 		target = GameObject.FindGameObjectWithTag ("Player");
-		camera.transform.parent = null;
 		camera.transform.position = homePosition;
 		camera.transform.rotation = homeRotation;
 	}

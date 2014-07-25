@@ -16,9 +16,8 @@ public class GingerMover : MonoBehaviour {
 	{
 		rigidbody.velocity = direction * speed;
 		cMover = mainCamera.GetComponent<CameraMover>();
-		//cMover.attachTo (gameObject);
 		cMover.setTarget(gameObject);
-		cMover.ZoomIn (1f, 15f);
+		cMover.ZoomIn (0.5f, 15f);
 		player = GameObject.FindGameObjectWithTag ("Player");
 		gameObject.GetComponent<DestroyByContact> ().setInvincible(true);
 	}
