@@ -9,6 +9,7 @@ public class Boundary
 
 public class PlayerController : MonoBehaviour {
 
+	public float health;
 	public float speed;
 	public float tilt;
 	public Boundary boundary;
@@ -19,12 +20,22 @@ public class PlayerController : MonoBehaviour {
 	public bool poweredUp;
 	public AudioSource[] audioSource;
 	private int shotAudioIndex;
+	public GameObject playerExplosion;
+	private GameController gameController;
 
 	void Start()
 	{
 		poweredUp = false;
 		shotAudioIndex = 0;
 		Object.DontDestroyOnLoad (transform.gameObject);
+
+		GameObject gameControllerObject = GameObject.FindWithTag ("GameController");
+		if(gameControllerObject != null)
+		{
+			gameController = gameControllerObject.GetComponent<GameController>();
+		}
+		if (gameController == null)
+			Debug.Log ("Cannot find 'gameController' script");
 	}
 
 	// Update is called once per frame
@@ -76,6 +87,23 @@ public class PlayerController : MonoBehaviour {
 		{
 			poweredUp = true;
 			audioSource[2].Play();
+		}
+
+		ProjectileTemplate pt = other.gameObject.GetComponent<ProjectileTemplate>();
+		if(pt != null){
+			audioSource[3].Play();
+			health -= pt.damage;
+			checkHealth ();
+		}
+	}
+
+	void checkHealth()
+	{
+		if(health < 0.0)
+		{
+			Instantiate(playerExplosion, transform.position, transform.rotation);
+			gameController.GameOver();
+			Destroy(gameObject);
 		}
 	}
 }

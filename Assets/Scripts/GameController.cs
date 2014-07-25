@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using UnityEditor;
 
@@ -41,13 +41,17 @@ public class GameController : MonoBehaviour {
 	{
 		if (Input.GetKeyDown (KeyCode.R) && restartOK)
 						Application.LoadLevel (Application.loadedLevel);
+		if (gameOver) {
+			restartText.text = "Press 'R' for Restart";
+			restartOK = true;
+		}
 	}
 
 	IEnumerator SpawnWaves ()
 	{
 		while(bossActive == false){
-			//yield return StartCoroutine (PhaseOne());
-			//yield return StartCoroutine (PhaseTwo());
+			yield return StartCoroutine (PhaseOne());
+			yield return StartCoroutine (PhaseTwo());
 			yield return StartCoroutine (BossOne());
 		}
 
@@ -140,13 +144,18 @@ public class GameController : MonoBehaviour {
 
 	IEnumerator BossOne()
 	{
+		if (gameOver) {
+			restartText.text = "Press 'R' for Restart";
+			restartOK = true;
+			yield break;
+		}
 		if (bossActive)
 						yield break;
 		restartText.text = "Ginger";
 		yield return new WaitForSeconds (startWait);
 		HitCounterReset ();
 		GameObject go = Instantiate(boss_ginger) as GameObject;
-		go.GetComponent <GingerMover>().setCamera(mainCamera);
+		go.GetComponent <GingerController>().setCamera(mainCamera);
 		go.SendMessage ("TheStart", transform.forward);
 		bossActive = true;
 		yield return new WaitForSeconds (spawnWait);
