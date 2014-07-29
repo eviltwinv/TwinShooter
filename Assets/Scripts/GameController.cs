@@ -14,6 +14,7 @@ public class GameController : MonoBehaviour {
 	public float startWait;
 	public float waveWait;
 	public GUIText scoreText;
+	public GUIText playerHealth;
 	private int score;
 	public GUIText restartText;
 	public GUIText gameOverText;
@@ -33,6 +34,7 @@ public class GameController : MonoBehaviour {
 		restartOK = false;
 		restartText.text = "";
 		gameOverText.text = "";
+		playerHealth.text = "Player Health: ";
 		hitCounter = 0;
 		StartCoroutine (SpawnWaves ());
 	}
@@ -45,6 +47,9 @@ public class GameController : MonoBehaviour {
 			restartText.text = "Press 'R' for Restart";
 			restartOK = true;
 		}
+		PlayerController pc = Player.GetComponent<PlayerController>();
+		playerHealth.text = "Player Health: " + pc.health;
+
 	}
 
 	IEnumerator SpawnWaves ()
