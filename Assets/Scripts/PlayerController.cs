@@ -81,27 +81,46 @@ public class PlayerController : MonoBehaviour {
 		}
 	}
 
+	void LateUpdate ()
+	{
+		gameController.updateHealthText(health);
+		checkHealth ();
+	}
+
 	void OnTriggerEnter(Collider other) 
 	{
+		//Ignore your own shots and the boundary
+		if(other.tag == "PlayerBolt" || other.tag == "Boundary")
+		{
+			return;
+		}
+		
+		//handle PowerUps
 		if(other.tag == "PowerUp")
 		{
-			poweredUp = true;
-			audioSource[2].Play();
+			//TODO: Create a general powerup script with a PowerUp method that takes a Player gameobject as an argument
 		}
 
+		//Handle any object with a damage amount
 		ProjectileTemplate pt = other.gameObject.GetComponent<ProjectileTemplate>();
 		if(pt != null){
 			audioSource[3].Play();
 			health -= pt.damage;
-			checkHealth ();
+			Destroy(other.gameObject);
+			return;
 		}
+		
+		//All other collision objects shall be treated as fatal collisions
+		health -= health;
+		
 	}
 
 	void checkHealth()
 	{
-		if(health < 0.0)
+		if(health <= 0.0)
 		{
 			Instantiate(playerExplosion, transform.position, transform.rotation);
+			audioSource[2].Play();
 			gameController.GameOver();
 			Destroy(gameObject);
 		}

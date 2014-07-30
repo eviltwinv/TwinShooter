@@ -35,6 +35,11 @@ public class GingerController : MonoBehaviour {
 
 	void Update()
 	{
+		checkHealth ();
+	}
+
+	void FixedUpdate()
+	{
 		if(mainLoop)
 		{
 			float deltaX = (2 * Mathf.Cos ( t ));
@@ -70,21 +75,16 @@ public class GingerController : MonoBehaviour {
 	public bool invincible = false;
 
 	void OnTriggerEnter(Collider other) {
-		if (other.tag == "Boundary" || other.tag == "GingerBolt" || invincible) 
+		if (other.tag == "GingerBolt" || invincible) 
 		{
 			return;
 		}
-		if (other.tag == "Player") {
-			Instantiate(playerExplosion, other.transform.position, other.transform.rotation);
-			gameController.GameOver();
-		}
-		Destroy(other.gameObject);
 
 		ProjectileTemplate pt = other.gameObject.GetComponent<ProjectileTemplate>();
 		if(pt != null){
 			audioSource[1].Play();
 			health -= pt.damage;
-			checkHealth ();
+			Destroy(other.gameObject);
 		}
 	}
 	

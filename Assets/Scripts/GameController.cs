@@ -47,8 +47,6 @@ public class GameController : MonoBehaviour {
 			restartText.text = "Press 'R' for Restart";
 			restartOK = true;
 		}
-		PlayerController pc = Player.GetComponent<PlayerController>();
-		playerHealth.text = "Player Health: " + pc.health;
 
 	}
 
@@ -65,6 +63,11 @@ public class GameController : MonoBehaviour {
 	void UpdateScore()
 	{
 		scoreText.text = "Score " + score;
+	}
+
+	public void updateHealthText (float health)
+	{
+		playerHealth.text = "Player Health: " + health;
 	}
 
 	public void AddScore(int points)
@@ -88,11 +91,8 @@ public class GameController : MonoBehaviour {
 	{
 		hitCounter = 0;
 	}
-	public void setSpawn (Vector3 pos)
-	{
-		powerPos = pos;
-	}
 
+	/* TODO: Rework powerup/drop system
 	public void PowerUpCheck ()
 	{
 		PlayerController pc = Player.GetComponent<PlayerController>();
@@ -101,7 +101,7 @@ public class GameController : MonoBehaviour {
 			if(powerPos.x >= 8) powerPos.x = 8;
 			Instantiate (powerUp, powerPos, Quaternion.identity);
 		}
-	}
+	}*/
 
 	IEnumerator PhaseOne()
 	{
